@@ -1,8 +1,3 @@
----
-title: "FlipSketch"
-description: "FlipSketch: Flipping assets Drawings to Text-Guided Sketch Animations"
----
-
 # FlipSketch: Flipping assets Drawings to Text-Guided Sketch Animations
 
 
