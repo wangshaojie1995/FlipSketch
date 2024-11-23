@@ -18,7 +18,7 @@
 ## Inference App
 - Install conda environment: 
 ```
-conda env create -f environment.yml
+conda env create -f flipsketch.yml
 ```
 - Download T2V LoRA Model from HuggingFace
 ```
