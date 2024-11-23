@@ -18,6 +18,7 @@ https://github.com/user-attachments/assets/de8f2cef-3123-4a98-90e0-af59631a00f4
 ![flipsketch_main](https://github.com/user-attachments/assets/e20405bb-2958-484d-9c13-042bac8b40d5)
 
 </div>
+
 ## App for Inference
 - Install conda environment: 
 ```
