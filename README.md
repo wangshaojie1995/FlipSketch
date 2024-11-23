@@ -13,10 +13,11 @@ https://github.com/user-attachments/assets/de8f2cef-3123-4a98-90e0-af59631a00f4
 <div align="center"> 
 
 ## Sketch + Text &#8594; Animation 
+
+
+![flipsketch_main](https://github.com/user-attachments/assets/e20405bb-2958-484d-9c13-042bac8b40d5)
+
 </div>
-
-![flipsketch_web_1](https://github.com/user-attachments/assets/8c04e9a7-2dd3-44d8-8a47-f2b3b81b83e7)
-
 ## App for Inference
 - Install conda environment: 
 ```
