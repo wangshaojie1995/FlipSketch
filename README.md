@@ -1,21 +1,20 @@
-# FlipSketch: Flipping assets Drawings to Text-Guided Sketch Animations
+<div align="center">
+
+  # FlipSketch: Flipping assets Drawings to Text-Guided Sketch Animations
+[Hmrishav Bandyopadhyay](https://hmrishavbandy.github.io/) . [Yi-Zhe Song](https://personalpages.surrey.ac.uk/y.song/)
+</div>
 
 
-<span style="display: inline-flex; align-items: center; gap: 5px;">
-  <a href="https://arxiv.org/pdf/2411.10818v1">
-    <img src="https://img.icons8.com/material-outlined/24/000000/pdf.png" alt="PDF" style="vertical-align: middle;" />
-    PDF
-  </a>
-</span>
-<span style="display: inline-flex; align-items: center; gap: 5px; margin-left: 15px;">
-  <a href="http://hmrishavbandy.github.io/flipsketch-web/">
-    <img src="https://img.icons8.com/ios-glyphs/24/000000/globe.png" alt="Website" style="vertical-align: middle;" />
-    Website
-  </a>
-</span>
+https://github.com/user-attachments/assets/de8f2cef-3123-4a98-90e0-af59631a00f4
 
+<div align="center"> 
 
-## Inference App
+## Sketch + Text &#8594; Animation 
+</div>
+
+![flipsketch_web_1](https://github.com/user-attachments/assets/8c04e9a7-2dd3-44d8-8a47-f2b3b81b83e7)
+
+## App for Inference
 - Install conda environment: 
 ```
 conda env create -f flipsketch.yml
@@ -30,7 +29,7 @@ python app.py
 ```
 
 
-## Generation Pipeline
+## How it works?
 
 <div align="center">
 <img src="./assets/images/model_1.png" alt="Generation Pipeline" width="75%">
@@ -39,6 +38,9 @@ python app.py
 <p>We perform attention composition with reference noise from the input sketch.</p>
 </div>
 
+## Acknowledgements
+- [Live-Sketch](https://github.com/yael-vinker/live_sketch)
+- [Text-To-Video-Finetuning](https://github.com/ExponentialML/Text-To-Video-Finetuning)
 ## BibTeX
 
 ```bibtex
