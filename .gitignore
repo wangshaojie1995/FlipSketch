@@ -5,6 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
+checkpoint-2500/
+static/app_tmp/*
+static/uploads/*
 
 # Distribution / packaging
 .Python

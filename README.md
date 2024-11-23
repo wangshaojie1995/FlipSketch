@@ -14,10 +14,21 @@
   </a>
 </span>
 
-<br>
-<h3 style="text-align: center;">
-  Code Coming Soon
-</h3>
+
+## Inference App
+- Install conda environment: 
+```
+conda env create -f environment.yml
+```
+- Download T2V LoRA Model from HuggingFace
+```
+git clone https://huggingface.co/Hmrishav/t2v_sketch-lora
+```
+- Run app
+```
+python app.py
+```
+
 
 ## Generation Pipeline
 

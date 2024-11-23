@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FlipSketch - GIF Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading-bar {
+            display: none;
+            position: relative;
+            overflow: hidden;
+            background: #f3f4f6;
+            height: 4px;
+            width: 100%;
+        }
+
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #4f46e5, transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        .loading-bar.active {
+            display: block;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .preview-container {
+            max-width: 300px;
+            margin: 10px 0;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+        }
+
+        /* Updated styles to display multiple GIFs in a grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 20px;
+            justify-items: center;
+        }
+
+        .results-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+        }
+        
+        .examples-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Increased minmax to 150px */
+        grid-gap: 15px; /* Increased gap between images */
+        margin-top: 10px;
+        }
+
+        .example-item {
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+
+        .example-item.selected {
+            border-color: #4f46e5; /* Indigo border when selected */
+        }
+
+        .example-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+
+        .example-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            background-color: #f9fafb;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .tab-button.active {
+            background-color: #ffffff;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            border-color: #e5e7eb;
+            color: #4f46e5;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-indigo-600">FlipSketch</h1>
+
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+            <form id="generatorForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Enter your prompt</label>
+                    <input type="text" name="prompt" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <div class="tab-buttons">
+                        <div class="tab-button active" data-tab="examplesTab">Sketch</div>
+                        <div class="tab-button" data-tab="uploadTab">Upload</div>
+                    </div>
+                    <div id="examplesTab" class="tab-content active">
+                        <div id="exampleSketches" class="examples-grid">
+                        </div>
+                    </div>
+
+
+                    <div id="uploadTab" class="tab-content">
+                        <input type="file" id="imageInput" name="image" accept="image/*"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                        <div id="imagePreview" class="preview-container"></div>
+                    </div>
+
+                </div>
+
+                <!-- Seeds input remains unchanged -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Seeds (1-10)</label>
+                    <input type="number" name="seeds" min="1" max="10" value="5"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Motion (0.0 - 1.0) [Reduce when the animation changes the input sketch]</label>
+                    <input type="range" name="lambda" min="0" max="1" step="0.05" value="0.5" class="w-full">
+                    <div class="text-sm text-gray-600 mt-1">Value (1-Lambda) : <span id="lambdaValue">0.5</span></div>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200">
+                    Generate GIF
+                </button>
+            </form>
+
+            <div id="loadingBar" class="loading-bar mt-6"></div>
+            <div id="progressText" class="text-center mt-4 text-gray-600 hidden">Generating your GIF...
+                <span id="progressPercent">0%</span>
+            </div>
+
+            <div class="results mt-8">
+                <h2 class="text-2xl font-semibold mb-4 text-center">Generated GIFs</h2>
+                <div class="results-grid" id="resultsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lambda Slider Update
+        const lambdaSlider = document.querySelector('input[name="lambda"]');
+        const lambdaValue = document.getElementById('lambdaValue');
+        lambdaSlider.addEventListener('input', () => {
+            lambdaValue.textContent = lambdaSlider.value;
+        });
+        const examplePrompts = {
+            'sketch1.png': 'The camel walks slowly',
+            'sketch2.png': 'The wine in the wine glass sways from side to side',
+            'sketch3.png': 'The squirrel is eating a nut',
+            'sketch4.png': 'The surfer surfs on the waves',
+            'sketch5.png': 'A galloping horse',
+            'sketch6.png': 'The cat walks forward',
+            'sketch7.png': 'The eagle flies in the sky',
+            'sketch8.png': 'The flower is blooming slowly',
+            'sketch9.png': 'The reindeer looks around',
+            'sketch10.png': 'The cloud floats in the sky',
+            'sketch11.png': 'The jazz saxophonist performs on stage with a rhythmic sway, his upper body sways subtly to the rhythm of the music.',
+            'sketch12.png': 'The biker rides on the road',
+        };
+
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        let selectedExample = null;
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                // Hide all tab contents
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked button
+                button.classList.add('active');
+                // Show corresponding tab content
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+
+                // Reset inputs when switching tabs
+                if (tabId === 'uploadTab') {
+                    // Clear selected example
+                    selectedExample = null;
+                    const exampleItems = document.querySelectorAll('.example-item');
+                    exampleItems.forEach(item => item.classList.remove('selected'));
+                    // Enable image input
+                    document.getElementById('imageInput').disabled = false;
+
+                    // Clear the prompt input field
+                    const promptInput = document.querySelector('input[name="prompt"]');
+                    promptInput.value = '';
+                } else if (tabId === 'examplesTab') {
+                    // Clear uploaded image
+                    const imageInput = document.getElementById('imageInput');
+                    imageInput.value = '';
+                    document.getElementById('imagePreview').innerHTML = '';
+                    // Disable image input
+                    imageInput.disabled = true;
+
+                    // Clear the prompt input field
+                    const promptInput = document.querySelector('input[name="prompt"]');
+                    promptInput.value = '';
+                }
+            });
+        });
+
+        // Load example sketches when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const exampleSketches = document.getElementById('exampleSketches');
+            const numExamples = 12; // Number of example sketches
+            for (let i = 1; i <= numExamples; i++) {
+                const filename = `sketch${i}.png`;
+                const prompt = examplePrompts[filename] || ''; // Get the default prompt, or empty string if not defined
+
+                const exampleItem = document.createElement('div');
+                exampleItem.className = 'example-item';
+                exampleItem.dataset.prompt = prompt; // Store the prompt as a data attribute
+
+                const img = document.createElement('img');
+                img.src = `static/examples/${filename}`; // Adjust the path to your examples
+                img.alt = `Sketch ${i}`;
+                img.dataset.filename = filename; // Store the filename
+
+                exampleItem.appendChild(img);
+                exampleSketches.appendChild(exampleItem);
+            }
+        });
+        // Handle selection of an example sketch
+        document.getElementById('exampleSketches').addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                const clickedItem = e.target.parentElement;
+                const isSelected = clickedItem.classList.contains('selected');
+
+                // Deselect all items
+                const exampleItems = document.querySelectorAll('.example-item');
+                exampleItems.forEach(item => item.classList.remove('selected'));
+
+                if (!isSelected) {
+                    // Select the clicked item
+                    clickedItem.classList.add('selected');
+                    selectedExample = e.target.dataset.filename;
+
+                    // Retrieve and set the default prompt
+                    const defaultPrompt = clickedItem.dataset.prompt || '';
+                    const promptInput = document.querySelector('input[name="prompt"]');
+                    promptInput.value = defaultPrompt;
+                } else {
+                    // Deselecting the item
+                    selectedExample = null;
+                    const promptInput = document.querySelector('input[name="prompt"]');
+                    promptInput.value = '';
+                }
+            }
+        });
+
+        // Image upload preview (optional)
+        document.getElementById('imageInput').addEventListener('change', (e) => {
+            const previewContainer = document.getElementById('imagePreview');
+            previewContainer.innerHTML = '';
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                const img = document.createElement('img');
+                img.className = 'preview-image';
+                img.src = URL.createObjectURL(file);
+                previewContainer.appendChild(img);
+            }
+        });
+
+        document.getElementById('generatorForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            // Determine which tab is active
+            const activeTab = document.querySelector('.tab-content.active').id;
+
+            if (activeTab === 'uploadTab') {
+                // Ensure a file is uploaded
+                const imageInput = document.getElementById('imageInput');
+                if (!imageInput.files.length) {
+                    alert('Please upload an image before submitting!');
+                    return; // Stop form submission
+                }
+                // No need to append selected_example
+            } else if (activeTab === 'examplesTab') {
+                // Ensure an example is selected
+                if (!selectedExample) {
+                    alert('Please select an example sketch before submitting!');
+                    return; // Stop form submission
+                }
+                // Append selected_example to form data
+                formData.append('selected_example', selectedExample);
+            }
+
+            // Show Loading Bar
+            const loadingBar = document.getElementById('loadingBar');
+            const progressText = document.getElementById('progressText');
+            const progressPercent = document.getElementById('progressPercent');
+            loadingBar.classList.add('active');
+            progressText.classList.remove('hidden');
+            document.querySelector('.results').classList.remove('active');
+
+            // Simulate Loading Progress
+            let progress = 0;
+            const totalDuration = 65000; // 30 seconds
+            const updateInterval = 100; // Update every 100ms
+            const increment = 100 / (totalDuration / updateInterval);
+
+            const progressInterval = setInterval(() => {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                }
+                progressPercent.textContent = `${Math.floor(progress)}%`;
+            }, updateInterval);
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Complete the Progress Bar
+                    progress = 100;
+                    progressPercent.textContent = '100%';
+
+                    const resultsGrid = document.getElementById('resultsGrid');
+                    resultsGrid.innerHTML = '';
+
+                    // Display all GIFs returned by the server
+                    data.gifs.forEach((gifUrl) => {
+                        const gifElement = document.createElement('div');
+                        gifElement.className = 'gif-container';
+                        gifElement.innerHTML = `
+                            <img src="${gifUrl}" alt="Generated GIF">
+                        `;
+                        resultsGrid.appendChild(gifElement);
+                    });
+
+                    document.querySelector('.results').classList.add('active');
+                } else {
+                    alert(data.error || 'An error occurred');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while generating the GIFs');
+            } finally {
+                clearInterval(progressInterval);
+                setTimeout(() => {
+                    loadingBar.classList.remove('active');
+                    progressText.classList.add('hidden');
+                }, 500);
+            }
+        });
+
+        
+    </script>
+</body>
+</html>`
