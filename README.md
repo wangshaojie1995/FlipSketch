@@ -1,8 +1,10 @@
 <div align="center">
+<img align="left" width="100" height="100" src="https://github.com/user-attachments/assets/c61cec76-3c4b-42eb-8c65-f07e0166b7d8" alt="">
 
   # FlipSketch: Flipping assets Drawings to Text-Guided Sketch Animations
 [Hmrishav Bandyopadhyay](https://hmrishavbandy.github.io/) . [Yi-Zhe Song](https://personalpages.surrey.ac.uk/y.song/)
 </div>
+
 
 
 https://github.com/user-attachments/assets/de8f2cef-3123-4a98-90e0-af59631a00f4
