@@ -38,6 +38,9 @@ mv t2v_sketch-lora/checkpoint-2500 ./checkpoint-2500/
 python app.py
 ```
 
+## ❗❗Important Note❗❗: 
+This code works only with PyTorch 1.x, as 2.0 introduces new (and faster) attention computing (See [this blog post](https://pytorch.org/blog/out-of-the-box-acceleration/) for more details). Hence the attention composition part of my work is completely bypassed with PyTorch 2.x. I will convert the workflow to be usable with PyTorch 2.x later this year (hopefully).
+
 
 ## How it works?
 
