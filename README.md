@@ -26,7 +26,12 @@ conda env create -f flipsketch.yml
 ```
 - Download T2V LoRA Model from HuggingFace
 ```
+git lfs install
 git clone https://huggingface.co/Hmrishav/t2v_sketch-lora
+```
+- Place LoRA checkpoint under root folder:
+```
+mv t2v_sketch-lora/checkpoint-2500 ./checkpoint-2500/
 ```
 - Run app
 ```
