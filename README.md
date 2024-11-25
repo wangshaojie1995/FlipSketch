@@ -14,7 +14,6 @@ https://github.com/user-attachments/assets/de8f2cef-3123-4a98-90e0-af59631a00f4
 
 ## Sketch + Text &#8594; Animation 
 
-
 ![flipsketch_main](https://github.com/user-attachments/assets/e20405bb-2958-484d-9c13-042bac8b40d5)
 
 </div>
@@ -38,9 +37,8 @@ mv t2v_sketch-lora/checkpoint-2500 ./checkpoint-2500/
 python app.py
 ```
 
-## ❗❗Important Note❗❗: 
-This code works only with PyTorch 1.x, as 2.0 introduces new (and faster) attention computing (See [this blog post](https://pytorch.org/blog/out-of-the-box-acceleration/) for more details). Hence the attention composition part of my work is completely bypassed with PyTorch 2.x. I will convert the workflow to be usable with PyTorch 2.x later this year (hopefully).
-
+## PyTorch 2+ Support: 
+To use the codebase with PyTorch2.0, modify [here](https://github.com/hmrishavbandy/FlipSketch/blob/7a991e5c657c6da20eba21c13867c5d10324b22f/app.py#L26) to import from `text2vid_torch2.py` instead of `text2vid_modded.py`
 
 ## How it works?
 
