@@ -18,7 +18,7 @@ from diffusers import (
 from transformers import CLIPTokenizer, CLIPTextModel
 from diffusers.utils import export_to_video
 from typing import List
-from text2vid_torch2 import TextToVideoSDPipelineModded
+from text2vid_modded import TextToVideoSDPipelineModded
 from invert_utils import ddim_inversion as dd_inversion
 from gifs_filter import filter
 import subprocess
