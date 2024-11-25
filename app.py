@@ -64,8 +64,13 @@ def load_frames(image: Image, mode='RGBA'):
     return np.array([np.array(frame.convert(mode)) for frame in ImageSequence.Iterator(image)])
 
 def save_gif(frames, path):
-    imageio.mimsave(path, [frame.astype(np.uint8) for frame in frames], format='GIF', duration=1/10)
-
+    imageio.mimsave(
+        path,
+        [frame.astype(np.uint8) for frame in frames],
+        format="GIF",
+        duration=1 / 10,
+        loop=0  # 0 means infinite loop
+    )
 def load_image(imgname, target_size=None):
     pil_img = Image.open(imgname).convert('RGB')
     if target_size:
