@@ -67,7 +67,7 @@ If you find **FlipSketch** useful, consider citing our work:
 
 ```bibtex
 @misc{bandyopadhyay2024flipsketch,
-  title={FlipSketch: Flipping assets Drawings to Text-Guided Sketch Animations}, 
+  title={FlipSketch: Flipping static Drawings to Text-Guided Sketch Animations}, 
   author={Hmrishav Bandyopadhyay and Yi-Zhe Song},
   year={2024},
   eprint={2411.10818},
