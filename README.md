@@ -18,8 +18,22 @@ https://github.com/user-attachments/assets/de8f2cef-3123-4a98-90e0-af59631a00f4
 ![flipsketch_main](https://github.com/user-attachments/assets/e20405bb-2958-484d-9c13-042bac8b40d5)
 
 </div>
-
-
+<div align="center"> 
+  
+## 🎥 Gallery 🎥
+<div  style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 10px;">
+  <img src="https://github.com/user-attachments/assets/27ece2d1-f3fa-40fe-82a6-87681ec19443" alt="gazelle" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/fecbc5f5-c4ac-48b4-91b0-655e4e259c03" alt="cat" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/e4104224-3dee-49ef-83de-d3ce84e370ba" alt="frame_extrapolation" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/acfc11ae-dc3d-4254-91b9-3d6b220e65fd" alt="fish_base" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/5d8c32cf-e2fe-4704-a860-a855afb45b84" alt="candle" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/ca848252-d0c7-4936-8a2c-9f4c4e7ed05b" alt="surfer-0" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/2d72be9b-596d-4a73-b968-07872ad81dea" alt="flower_v2" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/2d218832-f084-4fe1-8eae-b9696df38c10" alt="horse-2" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/3a97477e-6dcd-4b32-8f6e-cb822afbaebf" alt="squirrel" style="width: 150px; height: 150px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/90352cce-1cf6-4403-ae2a-0ddcd08c1fca" alt="pixar_i" style="width: 230px; height: 150px; object-fit: cover;">
+</div>
+</div>
 
 ## 🤗 HuggingFace Demo
 Try out our [Hugging Face Space](https://huggingface.co/spaces/Hmrishav/FlipSketch)!
